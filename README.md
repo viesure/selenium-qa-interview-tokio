@@ -2,13 +2,19 @@
 
 
 I started the tests from Eclips-IDE as an JUnit Test: 
+![Title](./testunit/1.jpg)
 
 Test xml protocol:
 <testrun name="testRunner" project="tokioproject" tests="7" started="7" failures="3" errors="0" ignored="0">
+  
 <testsuite name="testRun.testRunner" time="6.226">
+  
 <testsuite name="Tokio team" time="6.226">
+  
 <testcase name="I want to check the city field" classname="Tokio team" time="4.834"/>
+  
 <testcase name="I want to check the conditionID field" classname="Tokio team" time="0.282">
+  
 <failure>java.lang.AssertionError: The element is missing from JSON data structure. at org.junit.Assert.fail(Assert.java:89) at stepDefinition.tokioSteps.i_check_the_conditionid_field(tokioSteps.java:48) at ✽.I check the conditionID field(file:///C:/Users/szila/eclipse-workspace/tokioproject/src/main/java/featureFiles/tokioTests.feature:29) </failure>
 </testcase>
 <testcase name="I want to check the condition field" classname="Tokio team" time="0.204"/>
