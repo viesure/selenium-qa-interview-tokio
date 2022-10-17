@@ -6,9 +6,9 @@ I started the tests from Eclips-IDE as an JUnit Test:
 ![Title](./resources/1.JPG)
 
 Short summary:
-*testrun name="testRunner" project="tokioproject" tests="7" started="7" failures="3" errors="0" ignored="0" \
-*<testsuite name="testRun.testRunner" time="6.226"> \
-*<testsuite name="Tokio team" time="6.226"> \
+testrun name="testRunner" project="tokioproject" tests="7" started="7" failures="3" errors="0" ignored="0" \
+<testsuite name="testRun.testRunner" time="6.226"> \
+<testsuite name="Tokio team" time="6.226"> \
 <testcase name="I want to check the city field" classname="Tokio team" time="4.834"/> --> OK\
 <testcase name="I want to check the conditionID field" classname="Tokio team" time="0.282"> --> The element is missing from JSON data structure.\
 <testcase name="I want to check the condition field" classname="Tokio team" time="0.204"/> --> OK\
