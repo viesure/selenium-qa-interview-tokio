@@ -15,7 +15,7 @@ testcase name="I want to check the condition field" classname="Tokio team" time=
 testcase name="I want to check the icon field" classname="Tokio team" time="0.258" --> OK \
 testcase name="I want to check the weather object" classname="Tokio team" time="0.2" --> Celsius was miscalculated \
 testcase name="I want to check the description field" classname="Tokio team" time="0.216" --> Description is not accurate \
-testcase name="I want to check Sydneys weather date and time" classname="Tokio team" time="0.232" --> I could not finish the selenium part, sorry \
+testcase name="I want to check Sydneys weather date and time" classname="Tokio team" time="0.232" --> I could not finish the selenium part, sorry
 
 Full xml protocol from JUnit run:
 ```xml
