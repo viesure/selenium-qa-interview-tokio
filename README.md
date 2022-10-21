@@ -1,137 +1,41 @@
 # Selenium QA Interview (Tokio team)
 
 
-## Weather 'application' overview
+I started the tests from Eclips-IDE as an JUnit Test:
 
-You are assigned to a team (called **Tokio**) which is developing weather related application's MVP backend.
-Your task is to create automated tests for API that the application will use.
+![Title](./resources/1.JPG)
 
-The app will use one API, that tells the weather for a fixed city for the MVP. (Condition, description, temperatures ...etc.).
+Short summary:
+testrun name="testRunner" project="tokioproject" tests="7" started="7" failures="3" errors="0" ignored="0" \
+testsuite name="testRun.testRunner" time="6.226" \
+testsuite name="Tokio team" time="6.226" \
+testcase name="I want to check the city field" classname="Tokio team" time="4.834" --> OK \
+testcase name="I want to check the conditionID field" classname="Tokio team" time="0.282" --> The element is missing from JSON data structure. \
+testcase name="I want to check the condition field" classname="Tokio team" time="0.204" --> OK \
+testcase name="I want to check the icon field" classname="Tokio team" time="0.258" --> OK \
+testcase name="I want to check the weather object" classname="Tokio team" time="0.2" --> Celsius was miscalculated \
+testcase name="I want to check the description field" classname="Tokio team" time="0.216" --> Description is not accurate \
+testcase name="I want to check Sydneys weather date and time" classname="Tokio team" time="0.232" --> I could not finish the selenium part, sorry
 
-The API will return the following fields: `city`, `condition`, `icon`, `description` `conditionId` `tempInFahrenheit` and `tempInCelsius`
-
-
-## Weather backend's acceptance criteria-s
-
-* The **city field** would give a fixed city name as a string
-* The **conditionID field** gives an ID of the current condition
-
-  | ID   | Value   |
-    | ---- | ------  |
-  | 1    | clear   |
-  | 2    | windy   |
-  | 3    | mist    |
-  | 4    | drizzle |
-  | 5    | dust    |
-
-* The **condition field** would tell the weather condition as a string based on condition id
-    * Can have the following values `clear`, `windy`, `mist`, `drizzle` and `dust`
-* The **icon field** gives a `png` type image (string) that correlates (same as) the current condition
-* The **weather object** contains the temperature in both Fahrenheit and Celsius
-    * The **tempInFahrenheit field** contains the current temperature in Fahrenheits
-        * Should have 0 digits
-    * The **tempInCelsius field** contains the current remperature in Celsius
-        * Should have 0 digits
-        * Calculated from the tempInFahrenheit field
-        * Uses normal rounding rules
-* The **description field** returns a description text of the current weather
-    * The description is a fixed text with a suffix
-    * The description suffix is calculated based on the temperature in celsius
-    * Calculation rules:
-
-| Rule            | Description   |
-| -------------   | ------------- |
-| celsius <= 0    | freezing      |
-| celsius < 10    | cold          |
-| celsius < 20    | mild          |
-| celsius < 25    | warm          |
-| celsius >= 25   | hot           |
-
-
-### The API:
-**GET .../weather**
-* You can fetch the endpoint through  `https://backend-interview-tokio.tools.gcp.viesure.io/weather` with the following data structure:
-```curl
-curl -X 'GET' \
-  'https://backend-interview-tokio.tools.gcp.viesure.io/weather' \
-  -H 'accept: application/json'
+Full xml protocol from JUnit run:
+```xml
+<testrun name="testRunner" project="tokioproject" tests="7" started="7" failures="3" errors="0" ignored="0">
+<testsuite name="testRun.testRunner" time="6.226">
+<testsuite name="Tokio team" time="6.226">
+<testcase name="I want to check the city field" classname="Tokio team" time="4.834"/>
+<testcase name="I want to check the conditionID field" classname="Tokio team" time="0.282">
+<failure>java.lang.AssertionError: The element is missing from JSON data structure. at org.junit.Assert.fail(Assert.java:89) at stepDefinition.tokioSteps.i_check_the_conditionid_field(tokioSteps.java:48) at ✽.I check the conditionID field(file:///C:/Users/szila/eclipse-workspace/tokioproject/src/main/java/featureFiles/tokioTests.feature:29) </failure>
+</testcase>
+<testcase name="I want to check the condition field" classname="Tokio team" time="0.204"/>
+<testcase name="I want to check the icon field" classname="Tokio team" time="0.258"/>
+<testcase name="I want to check the weather object" classname="Tokio team" time="0.2">
+<failure>java.lang.AssertionError: Celsius was miscalculated at org.junit.Assert.fail(Assert.java:89) at stepDefinition.tokioSteps.i_check_the_weather_object(tokioSteps.java:68) at ✽.I check the weather object(file:///C:/Users/szila/eclipse-workspace/tokioproject/src/main/java/featureFiles/tokioTests.feature:41) </failure>
+</testcase>
+<testcase name="I want to check the description field" classname="Tokio team" time="0.216">
+<failure>java.lang.AssertionError: Description is not accurate at org.junit.Assert.fail(Assert.java:89) at stepDefinition.tokioSteps.i_check_the_description_field(tokioSteps.java:79) at ✽.I check the description field(file:///C:/Users/szila/eclipse-workspace/tokioproject/src/main/java/featureFiles/tokioTests.feature:45) </failure>
+</testcase>
+<testcase name="I want to check Sydneys weather date and time" classname="Tokio team" time="0.232"/>
+</testsuite>
+</testsuite>
+</testrun>
 ```
-```json
-{
-  "city"        : "Vienna",
-  "condition"   : "clear",
-  "icon"        : "clear.PNG",
-  "conditionId" : 1,
-  "description" : "The weather is mild",
-  "weather": {
-    "tempInFahrenheit" : 60,
-    "tempInCelsius"    : 15
-  }
-}
-```
-
-### Helper API-s
-
-You are also provided 2 helper API-s to be able to set the states for the GET weather API
-
-#### PUT .../weather/temp
-
-You can set the Fahrenheit temperature with this API, by sending an Integer
-* You can call the endpoint through  `https://backend-interview-tokio.tools.gcp.viesure.io/weather/temp`
-```cURL
-curl -X 'PUT' \
-  'https://backend-interview-tokio.tools.gcp.viesure.io/weather/temp' \
-  -H 'accept: */*' \
-  -H 'Content-Type: application/json' \
-  -d '{
-  "tempInFahrenheit": 17
-}'
-```
-#### PUT .../weather/condition
-
-You can set the Condition ID with this API, by sending an Integer
-* You can call the endpoint through  `https://backend-interview-tokio.tools.gcp.viesure.io/weather/condition`
-```cURL
-curl -X 'PUT' \
-  'https://backend-interview-tokio.tools.gcp.viesure.io/weather/condition' \
-  -H 'accept: */*' \
-  -H 'Content-Type: application/json' \
-  -d '{
-  "condition": 1
-}'
-```
-
-
-## Your task
-You need to implement a test automation for the weather API (see above) using Cucumber and Selenium
-* Define Cucumber scenarios
-* Use the following farmeworks/technologies within the automation project:
-    * Java
-    * Selenium
-    * Maven and POM
-    * BDD and Executed cucumber tests.
-    * Reporting framework of your choice.
-* Include the final automated test result/report in the readme.
-* Open a pull request containing automation source code and an informative readme.
-
-## Challenge
-
-To also make use of selenium, test a few fields from `https://openweathermap.org/`
-
-#### Task1
-Verify the main page's search field contains correct placeholder text
-
-![Title](./resources/openweather_search.png)
-
-#### Task2
-* Search for `Sydney`, and select `Sydney, AU` from the list
-* Verify the selected city' title
-* Verify the date
-* Verify the time
-
-
-![Title](./resources/openweather_search_city.png)
-
-
-## Next Step
-Our QA and Development team will review your task carefully and contact you as soon as possible.
